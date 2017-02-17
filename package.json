@@ -59,7 +59,6 @@
     ]
   },
   "dependencies": {
-    "component-classes": "^1.2.6",
     "lodash.get": "^4.4.2",
     "shallowequal": "^0.2.2",
     "warning": "^3.0.0"

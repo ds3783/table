@@ -4,7 +4,7 @@ import { render, mount } from 'enzyme';
 import { renderToJson, mountToJson } from 'enzyme-to-json';
 import Table from '..';
 
-describe('Table.expand', () => {
+xdescribe('Table.expand', () => {
   const columns = [
     { title: 'Name', dataIndex: 'name', key: 'name' },
     { title: 'Age', dataIndex: 'age', key: 'age' },

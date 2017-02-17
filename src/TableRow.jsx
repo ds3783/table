@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import TableCell from './TableCell';
-import ExpandIcon from './ExpandIcon';
 
 export default class TableRow extends React.Component {
   static propTypes = {
@@ -9,7 +8,6 @@ export default class TableRow extends React.Component {
     onRowDoubleClick: PropTypes.func,
     record: PropTypes.object,
     prefixCls: PropTypes.string,
-    expandIconColumnIndex: PropTypes.number,
     onHover: PropTypes.func,
     columns: PropTypes.array,
     height: PropTypes.oneOfType([
@@ -19,15 +17,9 @@ export default class TableRow extends React.Component {
     visible: PropTypes.bool,
     index: PropTypes.number,
     hoverKey: PropTypes.any,
-    expanded: PropTypes.bool,
-    expandable: PropTypes.any,
-    onExpand: PropTypes.func,
-    needIndentSpaced: PropTypes.bool,
     className: PropTypes.string,
     indent: PropTypes.number,
     indentSize: PropTypes.number,
-    expandIconAsCell: PropTypes.bool,
-    expandRowByClick: PropTypes.bool,
     store: PropTypes.object.isRequired,
   }
 
@@ -35,8 +27,6 @@ export default class TableRow extends React.Component {
     onRowClick() {},
     onRowDoubleClick() {},
     onDestroy() {},
-    expandIconColumnIndex: 0,
-    expandRowByClick: false,
     onHover() {},
   }
 
@@ -68,14 +58,7 @@ export default class TableRow extends React.Component {
       record,
       index,
       onRowClick,
-      expandable,
-      expandRowByClick,
-      expanded,
-      onExpand,
     } = this.props;
-    if (expandable && expandRowByClick) {
-      onExpand(!expanded, record, event, index);
-    }
     onRowClick(record, index, event);
   }
 
@@ -96,9 +79,7 @@ export default class TableRow extends React.Component {
 
   render() {
     const {
-      prefixCls, columns, record, height, visible, index,
-      expandIconColumnIndex, expandIconAsCell, expanded, expandRowByClick,
-      expandable, onExpand, needIndentSpaced, indent, indentSize,
+      prefixCls, columns, record, height, visible, index, indent, indentSize,
     } = this.props;
 
     let { className } = this.props;
@@ -109,30 +90,7 @@ export default class TableRow extends React.Component {
 
     const cells = [];
 
-    const expandIcon = (
-      <ExpandIcon
-        expandable={expandable}
-        prefixCls={prefixCls}
-        onExpand={onExpand}
-        needIndentSpaced={needIndentSpaced}
-        expanded={expanded}
-        record={record}
-      />
-    );
-
     for (let i = 0; i < columns.length; i++) {
-      if (expandIconAsCell && i === 0) {
-        cells.push(
-          <td
-            className={`${prefixCls}-expand-icon-cell`}
-            key="rc-table-expand-icon-cell"
-          >
-            {expandIcon}
-          </td>
-        );
-      }
-      const isColumnHaveExpandIcon = (expandIconAsCell || expandRowByClick)
-        ? false : (i === expandIconColumnIndex);
       cells.push(
         <TableCell
           prefixCls={prefixCls}
@@ -142,7 +100,6 @@ export default class TableRow extends React.Component {
           index={index}
           column={columns[i]}
           key={columns[i].key}
-          expandIcon={isColumnHaveExpandIcon ? expandIcon : null}
         />
       );
     }

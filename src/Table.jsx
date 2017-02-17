@@ -170,6 +170,8 @@ export default class Table extends React.Component {
         />
       );
 
+      this.props.afterRowCreate(rst);
+
       const subVisible = visible;
 
       if (childrenColumn) {
